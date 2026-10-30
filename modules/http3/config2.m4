@@ -30,6 +30,7 @@ h3_request.lo dnl
 h3_server.lo dnl
 h3_session.lo dnl
 h3_socket.lo dnl
+h3_socket_bpf.lo dnl
 h3_socket_os.lo dnl
 h3_stream.lo dnl
 h3_threads.lo dnl
