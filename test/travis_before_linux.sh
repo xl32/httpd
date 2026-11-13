@@ -252,6 +252,26 @@ if test -v TEST_NGHTTP2; then
     grep -H '^Version' $HOME/root/nghttp2/lib/pkgconfig/libnghttp2.pc
 fi
 
+# Build the requested version of ngtcp2 with its OpenSSL crypto helper,
+# if it's not already installed in the cached ~/root. The packaged one
+# is too old for mod_http3.
+if test -v TEST_NGTCP2; then
+    if ! test -d $HOME/root/ngtcp2; then
+        mkdir -p build/ngtcp2
+        pushd build/ngtcp2
+           curl -L "https://github.com/ngtcp2/ngtcp2/releases/download/v${TEST_NGTCP2}/ngtcp2-${TEST_NGTCP2}.tar.xz" |
+               tar -xJf -
+           cd ngtcp2-${TEST_NGTCP2}
+           ./configure --prefix=$HOME/root/ngtcp2 --enable-lib-only --with-openssl
+           make $MFLAGS
+           make install
+        popd
+    fi
+
+    : -- Using ngtcp2 from $HOME/root/ngtcp2 --
+    grep -H '^Version' $HOME/root/ngtcp2/lib/pkgconfig/libngtcp2_crypto_ossl.pc
+fi
+
 # Build the requested version of curl with HTTP/3, over OpenSSL's QUIC
 # stack and the packaged libnghttp3, if it's not already installed in
 # the cached ~/root. The packaged curl has no HTTP/3.

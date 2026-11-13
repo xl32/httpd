@@ -65,6 +65,10 @@ if test -n "${TEST_NGHTTP2-}"; then
     root="${root} nghttp2-${TEST_NGHTTP2}"
 fi
 
+if test -n "${TEST_NGTCP2-}"; then
+    root="${root} ngtcp2-${TEST_NGTCP2}"
+fi
+
 if test -n "${TEST_CURL_H3-}"; then
     root="${root} curl-h3-${TEST_CURL_H3}"
 fi
